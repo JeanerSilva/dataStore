@@ -22,9 +22,7 @@ public class Pull extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String entity = request.getParameter("entity") == null ? "moto" : request.getParameter("entity");
-
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-
 		TrackerPosList trackerPosList = new TrackerPosList();
 
 		Query q = new Query(entity);
