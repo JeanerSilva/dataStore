@@ -25,7 +25,7 @@ public class Delete extends HttpServlet {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 
-		String entity = request.getParameter("entity") == null ? "moto" : request.getParameter("entity");
+		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
 		Entity e = new Entity(entity);
 		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);

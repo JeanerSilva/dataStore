@@ -18,8 +18,8 @@ public class Publish extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String pos = request.getParameter("pos") == null ? "posNula" : request.getParameter("pos");
-		String entity = request.getParameter("entity") == null ? "trackerPos" : request.getParameter("entity");
+		String pos = request.getParameter("pos") == null ? "0" : request.getParameter("pos");
+		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Entity trackerPos = new Entity(entity);
