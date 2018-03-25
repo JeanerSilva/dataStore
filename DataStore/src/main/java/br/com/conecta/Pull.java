@@ -10,7 +10,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.gson.Gson;
+
 
 // localhost:8080/pull?entity=moto
 // https://coliconwg.appspot.com/localhost:8080/pull?entity=moto
