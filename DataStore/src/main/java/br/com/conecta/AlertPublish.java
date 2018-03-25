@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Entity;
 
 //      https://coliconwg.appspot.com/alertpublish?pos=-15.1,-48.30&giro=true&mov=true
 //      localhost:8080/alertpublish?pos=-15.1,-48.30&giro=true&mov=true
-@WebServlet(name = "publish", urlPatterns = { "/alertpublish" })
+@WebServlet(name = "alertpublish", urlPatterns = { "/alertpublish" })
 public class AlertPublish extends HttpServlet {
 
 	@Override

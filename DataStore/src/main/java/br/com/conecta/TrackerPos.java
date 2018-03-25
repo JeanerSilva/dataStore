@@ -4,11 +4,12 @@ public class TrackerPos {
 	String pos;
 	String time;
 	
+	public TrackerPos() {}
+	
 	public TrackerPos(String pos, String time) {
 		this.pos = pos;
 		this.time = time;
 	}
-
 
 	public String getPos() {
 		return pos;

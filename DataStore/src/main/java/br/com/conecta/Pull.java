@@ -1,6 +1,9 @@
 package br.com.conecta;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +26,14 @@ public class Pull extends HttpServlet {
 
 		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		TrackerPosList trackerPosList = new TrackerPosList();
+		List<TrackerPos> trackerPosList = new ArrayList<>();
 
 		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
 			String posEntity = e.getProperty("pos").toString();
 			String timeEntity = e.getProperty("time").toString();
-			trackerPosList.getTrackerPosList().add(new TrackerPos(posEntity, timeEntity));
+			trackerPosList.add(new TrackerPos(posEntity, timeEntity));
 		}
 
 		Gson gson = new Gson();
