@@ -24,7 +24,7 @@ import com.google.appengine.api.datastore.Query;
 //@Produces("application/json")
 @WebServlet(
     name = "HelloAppEngine",
-    urlPatterns = {"/hello"}
+    urlPatterns = {"/hello2"}
 )
 public class HelloAppEngine extends HttpServlet {
 

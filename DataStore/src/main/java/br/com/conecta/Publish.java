@@ -11,7 +11,8 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
-//    /publish?pos=1234
+//      https://coliconwg.appspot.com/publish?entity=moto&pos=1234
+//      localhost:8080/publish?entity=moto&pos=1234
 @WebServlet(name = "publish", urlPatterns = { "/publish" })
 public class Publish extends HttpServlet {
 

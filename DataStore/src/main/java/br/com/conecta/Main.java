@@ -1,6 +1,8 @@
 package br.com.conecta;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,37 +12,37 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 
-// localhost:8080/pull?entity=moto
-// https://coliconwg.appspot.com/localhost:8080/pull?entity=moto
-@WebServlet(name = "pull", urlPatterns = { "/pull" })
-public class Pull extends HttpServlet {
+//      https://coliconwg.appspot.com/publish?entity=moto&pos=1234
+//      localhost:8080/publish?entity=moto&pos=1234
+@WebServlet(name = "hello", urlPatterns = { "/hello" })
+public class Main extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		String entity = request.getParameter("entity") == null ? "moto" : request.getParameter("entity");
-
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 
-		TrackerPosList trackerPosList = new TrackerPosList();
-
+		String entity = "moto";
 		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);
+		
+		PrintWriter out = response.getWriter();
+		out.write("<html><body>");
+		out.write("<h2>Posições</h2>");
+		out.write("<p>Veículo: " + entity + "</p>");
 		for (Entity e : pq.asIterable()) {
 			String posEntity = e.getProperty("pos").toString();
 			String timeEntity = e.getProperty("time").toString();
-			trackerPosList.getTrackerPosList().add(new TrackerPos(posEntity, timeEntity));
-		}
+			out.write("<p>Pos: " + posEntity + "</p>");
+			out.write("<p>Time: " + timeEntity + "</p>");
+		};
 
-		Gson gson = new Gson();
-		String listJson = gson.toJson(trackerPosList);
-		
-		response.getWriter().print(listJson);
-		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
 
-		
+
+		out.write("</body></html>");
+
 	}
 }
