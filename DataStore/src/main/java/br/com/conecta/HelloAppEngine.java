@@ -1,6 +1,8 @@
 package br.com.conecta;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,10 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 
+//@Produces("application/json")
 @WebServlet(
     name = "HelloAppEngine",
     urlPatterns = {"/hello"}
@@ -37,12 +42,7 @@ public class HelloAppEngine extends HttpServlet {
 	e.setProperty("time", "23-03-2018 14:45");
 	ds.put(e);
 	*/
-	
-	//create a unique entity each time
-	Entity user = new Entity("usuario", 415);
-	user.setProperty("nome", "nomedousuario");
-	ds.put(user);
-	
+
 	//lista de entidades
 	/*
 	Entity e1 = new Entity("entidade1");
@@ -62,19 +62,36 @@ public class HelloAppEngine extends HttpServlet {
 			.addChild("user", "dad")
 			.getKey();
 	*/
+
+	//create a unique entity each time
+	Entity trackerPos = new Entity("trackerPos", 1);
+	trackerPos.setProperty("position", "1");
+	LocalDateTime agora = LocalDateTime.now();
+	trackerPos.setProperty("time", agora.toString());
+	ds.put(trackerPos);
+	
+
+	Query q = new Query("trackerPos");
+	PreparedQuery pq = ds.prepare(q);
+	for (Entity e : pq.asIterable()) {
+		String pos = e.getProperty("position").toString();
+		String time = e.getProperty("time").toString();
+		response.getWriter().print("{\"position\":\"" + pos + "\"," + "\"time\":\"" + time + "\"}") ;
+	}
 	
 	
-	
-    response.setContentType("text/plain");
+   //response.setContentType("application/json");
+	response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");
 
-    response.getWriter().print("Hello App Engine 22:08 \r\n");
-    try {
-		response.getWriter().print(ds.get(user.getKey())) ;
+    /*
+   try {
+		response.getWriter().print(ds.get(trackerPos.getKey()));		
 	} catch (EntityNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	*/
 
   }
 }
