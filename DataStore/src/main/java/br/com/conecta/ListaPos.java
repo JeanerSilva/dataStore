@@ -28,7 +28,8 @@ public class ListaPos extends HttpServlet {
 		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
 		TrackerPos trackerPos = new TrackerPos();
 		
-		Query q = new Query(entity).addSort("time", Query.SortDirection.DESCENDING);
+		Query q = new Query(entity);
+				//.addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		
 		PrintWriter out = response.getWriter();
