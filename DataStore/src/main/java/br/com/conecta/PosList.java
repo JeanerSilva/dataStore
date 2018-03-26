@@ -3,6 +3,10 @@ package br.com.conecta;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,38 +22,47 @@ import com.google.appengine.api.datastore.Query;
 
 //      https://coliconwg.appspot.com/listapos?entity=moto
 //      http://localhost:8080/poslist?entity=moto
+//      http://localhost:8080/poslist
 @WebServlet(name = "poslist", urlPatterns = { "/poslist" })
 public class PosList extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		String entity = request.getParameter("entity") == null ? "unknowtracker" : request.getParameter("entity");
-		TrackerPos trackerPos = new TrackerPos();
+		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+		TrackerPos tracker = new TrackerPos();
+		List<TrackerPos> trackerList = new ArrayList<>();
 		
 		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);
+		for (Entity e : pq.asIterable()) {
+			tracker = new TrackerPos();
+			tracker.setPos (e.getProperty("pos")  == null ? "" : e.getProperty("pos").toString());
+			tracker.setTime(e.getProperty("time") == null ? "" : e.getProperty("time").toString());
+			trackerList.add(tracker);
+		}
+		Comparator<? super TrackerPos> comparator = new Comparator<TrackerPos> () {
+			@Override
+			public int compare(TrackerPos o1, TrackerPos o2) {				
+				return o2.getTime().compareTo(o1.getTime());
+			}};
+		trackerList.sort(comparator);
 		
 		PrintWriter out = response.getWriter();
 		out.write("<html><body>");
-		out.write("<h2>Posições</h2>");
-		out.write("<p>Veículo: " + entity + "</p>");
+		out.write("<h2>Histórico</h2>");
+		out.write("<p>" + entity + "</p>");		
 		out.write("<table border=\"1\">");
 		out.write("<tr><th>N.</th>");
-		out.write("<th>Posição</th>");
+		out.write("<th>Pos</th>");
 		out.write("<th>Time</th></tr>");
 		int x = 1;
-		for (Entity e : pq.asIterable()) {
-			trackerPos.setPos(e.getProperty("pos").toString());
-			String positions [] = trackerPos.getPos().split(",");
-			String linkPos = getFormattedLocationInDegree(Double.parseDouble(positions[0]), Double.parseDouble(positions[1]));
-			
-			trackerPos.setTime(e.getProperty("time").toString());
+		for (TrackerPos t:trackerList) {
 			out.write("<tr><td>" + x + "</td>");
-			out.write("<td><a href=https://www.google.com.br/maps/place/" + linkPos + ">"+ linkPos + "</a></td>");
-			out.write("<td>" + trackerPos.getTime() + "</td></tr>");
-			x++;
+			out.write("<td>" + t.getPos() + "</td>");
+			out.write("<td>" + t.getTime() + "</td></tr>");
+		x++;
 		};
 		out.write("</table>");
 		
@@ -58,28 +71,4 @@ public class PosList extends HttpServlet {
 		out.write("</body></html>");
 
 	}
-	
-	public static String getFormattedLocationInDegree(double latitude, double longitude) {
-		try {
-			int latSeconds = (int) Math.round(latitude * 3600);
-			int latDegrees = latSeconds / 3600;
-			latSeconds = Math.abs(latSeconds % 3600);
-			int latMinutes = latSeconds / 60;
-			latSeconds %= 60;
-
-			int longSeconds = (int) Math.round(longitude * 3600);
-			int longDegrees = longSeconds / 3600;
-			longSeconds = Math.abs(longSeconds % 3600);
-			int longMinutes = longSeconds / 60;
-			longSeconds %= 60;
-			String latDegree = latDegrees >= 0 ? "N" : "S";
-			String lonDegrees = longDegrees >= 0 ? "E" : "W";
-
-			return Math.abs(latDegrees) + "°" + latMinutes + "'" + latSeconds + "\"" + latDegree 
-					+ Math.abs(longDegrees) + "°" + longMinutes + "'" + longSeconds + "\"" + lonDegrees;
-		} catch (Exception e) {
-			return "" + String.format("%8.5f", latitude) + String.format("%8.5f", longitude);
-		}
-	}
-	
 }

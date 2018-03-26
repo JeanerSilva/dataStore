@@ -31,7 +31,7 @@ public class AlertList extends HttpServlet {
 		System.out.println("entity: " + entity);
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Alert alert = new Alert();
-		List<Alert> listaDeAlertas = new ArrayList<>();
+		List<Alert> alertsList = new ArrayList<>();
 		
 		
 		Query q = new Query(entity);
@@ -39,18 +39,18 @@ public class AlertList extends HttpServlet {
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
 			alert = new Alert();
-			alert.setPos (e.getProperty("pos").toString());
-			alert.setGiro(e.getProperty("giro").toString());
-			alert.setMov (e.getProperty("mov").toString());
-			alert.setTime(e.getProperty("time").toString());
-			listaDeAlertas.add(alert);
+			alert.setPos (e.getProperty("pos") == null ? "" : e.getProperty("pos").toString());
+			alert.setGiro(e.getProperty("giro") == null ? "" : e.getProperty("giro").toString());
+			alert.setMov (e.getProperty("mov") == null ? "" : e.getProperty("mov").toString());
+			alert.setTime(e.getProperty("time") == null ? "" : e.getProperty("time").toString());
+			alertsList.add(alert);
 		}
 		Comparator<? super Alert> comparator = new Comparator<Alert> () {
 			@Override
 			public int compare(Alert o1, Alert o2) {				
 				return o2.getTime().compareTo(o1.getTime());
 			}};
-		listaDeAlertas.sort(comparator);
+		alertsList.sort(comparator);
 		
 		PrintWriter out = response.getWriter();
 		out.write("<html><body>");
@@ -62,9 +62,9 @@ public class AlertList extends HttpServlet {
 		out.write("<th>Giro</th>");
 		out.write("<th>Mov</th>");
 		out.write("<th>Time</th></tr>");
-		System.out.println(listaDeAlertas);
+		System.out.println(alertsList);
 		int x = 1;
-		for (Alert a:listaDeAlertas) {
+		for (Alert a:alertsList) {
 			out.write("<tr><td>" + x + "</td>");
 			out.write("<td>" + a.getPos() + "</td>");
 			out.write("<td>" + a.getGiro() + "</td>");

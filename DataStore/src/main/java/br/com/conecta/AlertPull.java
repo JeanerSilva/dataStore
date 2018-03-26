@@ -36,10 +36,10 @@ public class AlertPull extends HttpServlet {
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
 			alert = new Alert();
-			alert.setPos(e.getProperty("pos").toString());
-			alert.setMov(e.getProperty("mov").toString());
-			alert.setGiro(e.getProperty("giro").toString());
-			alert.setTime(e.getProperty("time").toString());
+			alert.setPos(e.getProperty("pos") == null ? "" : e.getProperty("pos").toString());
+			alert.setMov(e.getProperty("mov") == null ? "" : e.getProperty("mov").toString());
+			alert.setGiro(e.getProperty("giro") == null ? "" : e.getProperty("giro").toString());
+			alert.setTime(e.getProperty("time") == null ? "" : e.getProperty("time").toString());
 			alertList.add(alert);
 		}
 		

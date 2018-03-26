@@ -30,8 +30,8 @@ public class PosPull extends HttpServlet {
 		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
-			String posEntity = e.getProperty("pos").toString();
-			String timeEntity = e.getProperty("time").toString();
+			String posEntity = e.getProperty("pos") == null ? "" : e.getProperty("pos").toString();
+			String timeEntity = e.getProperty("time") == null ? "" : e.getProperty("time").toString();
 			trackerPosList.add(new TrackerPos(posEntity, timeEntity));
 		}
 
