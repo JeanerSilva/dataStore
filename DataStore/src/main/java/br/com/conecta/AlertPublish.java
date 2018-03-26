@@ -23,20 +23,17 @@ public class AlertPublish extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String entity = "alert";
 		LocalDateTime time = LocalDateTime.now();
-		DateTimeFormatter formatadorComHoras = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
-		String dataTime [] = time.format(formatadorComHoras).toString().split(" ");
-		
+				
 		Alert alert = new Alert(request.getParameter("pos"),
 								request.getParameter("giro"),
 								request.getParameter("mov"),
-								dataTime[0], dataTime[1]);
+								time.toString());
 		
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Entity alertEntity = new Entity(entity);
 		alertEntity.setProperty("pos", alert.getPos());
 		alertEntity.setProperty("giro", alert.getGiro());
 		alertEntity.setProperty("mov", alert.getMov());
-		alertEntity.setProperty("data", alert.getData());
 		alertEntity.setProperty("time", alert.getTime());		
 		ds.put(alertEntity);
 
@@ -50,13 +47,11 @@ public class AlertPublish extends HttpServlet {
 		out.write("<tr><th>Pos</th>");
 			out.write("<th>Giro</th>");
 			out.write("<th>Mov</th>");
-			out.write("<th>Date</th>");
 			out.write("<th>Time</th></tr>");
 		//corpo
 		out.write("<tr><td>" + alert.getPos() + "</td>");
 			out.write("<td>" + alert.getGiro() + "</td>");
 			out.write("<td>" + alert.getMov() + "</td>");
-			out.write("<td>" + alert.getData() + "</td>");
 			out.write("<td>" + alert.getTime() + "</td></tr>");
 		
 		out.write("</table>");

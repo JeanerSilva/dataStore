@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -31,17 +32,23 @@ public class AlertPull extends HttpServlet {
 		List<Alert> alertList = new ArrayList<>();
 
 		Query q = new Query(entity);
-				//.addSort("data", Query.SortDirection.DESCENDING)
-				//.addSort("time", Query.SortDirection.DESCENDING);
+
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
+			alert = new Alert();
 			alert.setPos(e.getProperty("pos").toString());
 			alert.setMov(e.getProperty("mov").toString());
 			alert.setGiro(e.getProperty("giro").toString());
-			alert.setData(e.getProperty("data").toString());
 			alert.setTime(e.getProperty("time").toString());
 			alertList.add(alert);
 		}
+		
+		Comparator<? super Alert> comparator = new Comparator<Alert> () {
+			@Override
+			public int compare(Alert o1, Alert o2) {				
+				return o2.getTime().compareTo(o1.getTime());
+			}};
+		alertList.sort(comparator);
 
 		Gson gson = new Gson();
 		String listJson = gson.toJson(alertList);

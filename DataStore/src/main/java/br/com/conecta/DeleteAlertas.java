@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Query;
 
 //      https://coliconwg.appspot.com/deletealertas?entity=alert
 //      localhost:8080/deletealertas?entity=alert
-@WebServlet(name = "deletealertas", urlPatterns = { "/deletealertas" })
+@WebServlet(name = "deletealertas", urlPatterns = { "/deletaalertas" })
 public class DeleteAlertas extends HttpServlet {
 
 	@Override
@@ -35,19 +35,16 @@ public class DeleteAlertas extends HttpServlet {
 		out.write("<tr><th>Pos</th>");
 		out.write("<th>Giro</th>");
 		out.write("<th>Mov</th>");
-		out.write("<th>Data</th>");
 		out.write("<th>Time</th></tr>");
 		for (Entity e : pq.asIterable()) {
 			alert.setPos(e.getProperty("pos").toString() == null ? "" : e.getProperty("pos").toString());
 			alert.setGiro(e.getProperty("giro").toString() == null ? "" : e.getProperty("giro").toString());
 			alert.setMov(e.getProperty("mov").toString() == null ? "" : e.getProperty("mov").toString());
 			alert.setTime(e.getProperty("time").toString() == null ? "" : e.getProperty("time").toString());
-			alert.setData(e.getProperty("data").toString() == null ? "" : e.getProperty("data").toString());
 			
 			out.write("<tr><td>" + alert.getPos() + "</td>");
 			out.write("<td>" + alert.getGiro() + "</td>");
 			out.write("<td>" + alert.getMov() + "</td>");
-			out.write("<td>" + alert.getData() + "</td>");
 			out.write("<td>" + alert.getTime() + "</td></tr>");
 			ds.delete(e.getKey());
 		};

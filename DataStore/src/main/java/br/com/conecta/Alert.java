@@ -5,17 +5,14 @@ public class Alert {
 	String giro;
 	String mov;
 	String time;
-	String data;
-	
+
 	public Alert() {}
 		
-	public Alert(String pos, String giro, String mov, String time, String data) {
+	public Alert(String pos, String giro, String mov, String time) {
 		this.pos = pos;
 		this.giro = giro;
 		this.mov = mov;
-		this.time = time;
-		this.data = data;
-		
+		this.time = time;	
 	}
 
 	public String getPos() {
@@ -50,17 +47,10 @@ public class Alert {
 		this.time = time;
 	}
 
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "Alert [pos=" + pos + ", giro=" + giro + ", mov=" + mov + ", time=" + time + ", data=" + data + "]";
+		return "Alert [pos=" + pos + ", giro=" + giro + ", mov=" + mov + ", time=" + time + "]";
 	}
 
 	
