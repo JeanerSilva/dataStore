@@ -15,17 +15,17 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-//      https://coliconwg.appspot.com/deletepos?entity=alert
-//      localhost:8080/deletepos?entity=alert
-@WebServlet(name = "deletepos", urlPatterns = { "/deletepos" })
-public class DeletePos extends HttpServlet {
+//      https://coliconwg.appspot.com/posdelete?entity=moto
+//      http://localhost:8080/posdelete?entity=moto
+@WebServlet(name = "posdelete", urlPatterns = { "/posdelete" })
+public class PosDelete extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 
-		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
+		String entity = request.getParameter("entity") == null ? "unknowtracker" : request.getParameter("entity");
 		//Entity e = new Entity(entity);
 		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);
@@ -42,14 +42,8 @@ public class DeletePos extends HttpServlet {
 			ds.delete(efor.getKey());
 		};
 		out.write("<br /><br /><p>Entidade " + entity + " deletada.</p>");
-		
-		//Key key = KeyFactory.createKey(entity);
-		//ds.delete(e.getKey());
-		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-
-
 		out.write("</body></html>");
 
 	}

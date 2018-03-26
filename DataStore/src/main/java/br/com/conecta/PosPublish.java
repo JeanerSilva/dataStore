@@ -11,15 +11,15 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
-//      https://coliconwg.appspot.com/publish?entity=moto&pos=1234
-//      localhost:8080/publish?entity=moto&pos=1.2,3.4
-@WebServlet(name = "publish", urlPatterns = { "/publish" })
-public class Publish extends HttpServlet {
+//      https://coliconwg.appspot.com/pospublish?entity=moto&pos=1.2,3.4
+//      http://localhost:8080/pospublish?entity=moto&pos=1.2,3.4
+@WebServlet(name = "pospublish", urlPatterns = { "/pospublish" })
+public class PosPublish extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String pos = request.getParameter("pos") == null ? "0" : request.getParameter("pos");
-		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
+		String pos = request.getParameter("pos") == null ? "0.0,0.0" : request.getParameter("pos") ;
+		String entity = request.getParameter("entity") == null ? "unknowtracker" : request.getParameter("entity");
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Entity trackerPos = new Entity(entity);

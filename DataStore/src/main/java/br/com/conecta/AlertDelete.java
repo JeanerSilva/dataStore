@@ -15,19 +15,22 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-//      https://coliconwg.appspot.com/deletealertas?entity=alert
-//      localhost:8080/deletealertas?entity=alert
-@WebServlet(name = "deletealertas", urlPatterns = { "/deletaalertas" })
-public class DeleteAlertas extends HttpServlet {
+//      https://coliconwg.appspot.com/alertsdelete?verbose=false&entity=alert
+//      http://localhost:8080/alertsdelete?verbose=false&entity=alert
+@WebServlet(name = "alertsdelete", urlPatterns = { "/alertsdelete" })
+public class AlertDelete extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+		String verbose = request.getParameter("verbose") == null ? "unknowalert" : request.getParameter("verbose");
+		String entity = request.getParameter("entity") == null ? "unknowalert" : request.getParameter("entity");
+		
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Alert alert = new Alert();
-		Query q = new Query("alert");
+		Query q = new Query(entity);
 		PreparedQuery pq = ds.prepare(q);
-		
+
 		PrintWriter out = response.getWriter();
 		out.write("<html><body>");
 		out.write("<h2>Histórico</h2>");
@@ -37,25 +40,27 @@ public class DeleteAlertas extends HttpServlet {
 		out.write("<th>Mov</th>");
 		out.write("<th>Time</th></tr>");
 		for (Entity e : pq.asIterable()) {
-			alert.setPos(e.getProperty("pos").toString() == null ? "" : e.getProperty("pos").toString());
-			alert.setGiro(e.getProperty("giro").toString() == null ? "" : e.getProperty("giro").toString());
-			alert.setMov(e.getProperty("mov").toString() == null ? "" : e.getProperty("mov").toString());
-			alert.setTime(e.getProperty("time").toString() == null ? "" : e.getProperty("time").toString());
-			
-			out.write("<tr><td>" + alert.getPos() + "</td>");
-			out.write("<td>" + alert.getGiro() + "</td>");
-			out.write("<td>" + alert.getMov() + "</td>");
-			out.write("<td>" + alert.getTime() + "</td></tr>");
+			if (!verbose.equals("false")) {
+				alert.setPos(e.getProperty("pos").toString() == null ? "" : e.getProperty("pos").toString());
+				alert.setGiro(e.getProperty("giro").toString() == null ? "" : e.getProperty("giro").toString());
+				alert.setMov(e.getProperty("mov").toString() == null ? "" : e.getProperty("mov").toString());
+				alert.setTime(e.getProperty("time").toString() == null ? "" : e.getProperty("time").toString());
+
+				out.write("<tr><td>" + alert.getPos() + "</td>");
+				out.write("<td>" + alert.getGiro() + "</td>");
+				out.write("<td>" + alert.getMov() + "</td>");
+				out.write("<td>" + alert.getTime() + "</td></tr>");
+			}
 			ds.delete(e.getKey());
-		};
+		}
+		;
 		out.write("<br /><br /><p>Alertas deletados.</p>");
-		
-		//Key key = KeyFactory.createKey(entity);
-		//ds.delete(e.getKey());
-		
+
+		// Key key = KeyFactory.createKey(entity);
+		// ds.delete(e.getKey());
+
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-
 
 		out.write("</body></html>");
 

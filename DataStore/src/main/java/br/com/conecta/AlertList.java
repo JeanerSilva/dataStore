@@ -19,19 +19,22 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-//      https://coliconwg.appspot.com/listaalertas?entity=moto
-//      localhost:8080/listaalertas?entity=moto
-@WebServlet(name = "listaalertas", urlPatterns = { "/listaalertas" })
-public class ListaAlerta extends HttpServlet {
+//      https://coliconwg.appspot.com/alertslist?entity=alertmoto
+//      http://localhost:8080/alertslist?&entity=alertmoto
+//		http://localhost:8080/alertslist
+@WebServlet(name = "alertslist", urlPatterns = { "/alertslist" })
+public class AlertList extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+		String entity = request.getParameter("entity") == null ? "unknowalert" : request.getParameter("entity");
+		System.out.println("entity: " + entity);
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Alert alert = new Alert();
 		List<Alert> listaDeAlertas = new ArrayList<>();
 		
-		Query q = new Query("alert");
+		
+		Query q = new Query(entity);
 
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
@@ -52,7 +55,7 @@ public class ListaAlerta extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.write("<html><body>");
 		out.write("<h2>Histórico</h2>");
-		out.write("<p>Alertas</p>");		
+		out.write("<p>" + entity + "</p>");		
 		out.write("<table border=\"1\">");
 		out.write("<tr><th>N.</th>");
 		out.write("<th>Pos</th>");

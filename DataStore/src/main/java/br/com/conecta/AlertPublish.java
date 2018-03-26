@@ -14,14 +14,16 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
-//      https://coliconwg.appspot.com/alertpublish?pos=-15.1,-48.30&giro=true&mov=true
-//      localhost:8080/alertpublish?pos=-15.1,-48.30&giro=true&mov=true
+//      https://coliconwg.appspot.com/alertpublish?pos=-15.1,-48.30&giro=true&mov=true&entity=alertmoto
+//      http://localhost:8080/alertpublish?pos=-15.1,-48.30&giro=true&mov=true&entity=alertmoto
+//		http://localhost:8080/alertpublish
+//      http://localhost:8080/alertpublish?pos=-15.1,-48.30&mov=true&entity=alertmoto
 @WebServlet(name = "alertpublish", urlPatterns = { "/alertpublish" })
 public class AlertPublish extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String entity = "alert";
+		String entity = request.getParameter("entity") == null ? "unknowalert" : request.getParameter("entity");
 		LocalDateTime time = LocalDateTime.now();
 				
 		Alert alert = new Alert(request.getParameter("pos"),
@@ -31,6 +33,11 @@ public class AlertPublish extends HttpServlet {
 		
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Entity alertEntity = new Entity(entity);
+		if (alert.getGiro() == null) alert.setGiro("vazio");
+		if (alert.getPos() == null) alert.setPos("vazio");
+		if (alert.getMov() == null) alert.setMov("vazio");
+		if (alert.getTime() == null) alert.setTime("vazio");
+		
 		alertEntity.setProperty("pos", alert.getPos());
 		alertEntity.setProperty("giro", alert.getGiro());
 		alertEntity.setProperty("mov", alert.getMov());
@@ -49,6 +56,9 @@ public class AlertPublish extends HttpServlet {
 			out.write("<th>Mov</th>");
 			out.write("<th>Time</th></tr>");
 		//corpo
+		
+
+		
 		out.write("<tr><td>" + alert.getPos() + "</td>");
 			out.write("<td>" + alert.getGiro() + "</td>");
 			out.write("<td>" + alert.getMov() + "</td>");

@@ -17,19 +17,18 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 //      https://coliconwg.appspot.com/listapos?entity=moto
-//      localhost:8080/listapos?entity=moto
-@WebServlet(name = "listapos", urlPatterns = { "/listapos" })
-public class ListaPos extends HttpServlet {
+//      http://localhost:8080/poslist?entity=moto
+@WebServlet(name = "poslist", urlPatterns = { "/poslist" })
+public class PosList extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
+		String entity = request.getParameter("entity") == null ? "unknowtracker" : request.getParameter("entity");
 		TrackerPos trackerPos = new TrackerPos();
 		
 		Query q = new Query(entity);
-				//.addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		
 		PrintWriter out = response.getWriter();

@@ -15,21 +15,19 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
-
-// localhost:8080/pull?entity=moto
-// https://coliconwg.appspot.com/localhost:8080/pull?entity=moto
-@WebServlet(name = "pull", urlPatterns = { "/pull" })
-public class Pull extends HttpServlet {
+// https://coliconwg.appspot.com/localhost:8080/pospull?entity=moto
+// http://localhost:8080/pospull?entity=moto
+@WebServlet(name = "pospull", urlPatterns = { "/pospull" })
+public class PosPull extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
+		String entity = request.getParameter("entity") == null ? "unknowtracker" : request.getParameter("entity");
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		List<TrackerPos> trackerPosList = new ArrayList<>();
 
 		Query q = new Query(entity);
-				//.addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
 			String posEntity = e.getProperty("pos").toString();

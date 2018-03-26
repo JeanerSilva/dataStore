@@ -10,7 +10,7 @@ public class HelloAppEngineTest {
   @Test
   public void test() throws IOException {
     MockHttpServletResponse response = new MockHttpServletResponse();
-    new ListaPos().doGet(null, response);
+    new PosList().doGet(null, response);
     Assert.assertEquals("text/html", response.getContentType());
     Assert.assertEquals("UTF-8", response.getCharacterEncoding());    
   }

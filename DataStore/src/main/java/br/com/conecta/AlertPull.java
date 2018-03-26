@@ -19,14 +19,14 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
-//      https://coliconwg.appspot.com/alertpull
-//      localhost:8080/alertpull
+//      https://coliconwg.appspot.com/alertpull&entity=alertmoto
+//      http://localhost:8080/alertpull?entity=alertmoto
 @WebServlet(name = "alertpull", urlPatterns = { "/alertpull" })
 public class AlertPull extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String entity = "alert";
+		String entity = request.getParameter("entity") == null ? "unknowalert" : request.getParameter("entity");
 		Alert alert = new Alert();
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		List<Alert> alertList = new ArrayList<>();
