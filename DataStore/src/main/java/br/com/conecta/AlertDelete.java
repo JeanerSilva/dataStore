@@ -15,8 +15,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-//      https://coliconwg.appspot.com/alertsdelete?verbose=false&entity=alert
-//      http://localhost:8080/alertsdelete?verbose=false&entity=alert
+//      https://coliconwg.appspot.com/alertsdelete?verbose=false&entity=alertmoto
+//      http://localhost:8080/alertsdelete?verbose=false&entity=alertmoto
 @WebServlet(name = "alertsdelete", urlPatterns = { "/alertsdelete" })
 public class AlertDelete extends HttpServlet {
 

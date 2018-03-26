@@ -19,7 +19,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
-//      https://coliconwg.appspot.com/alertpull&entity=alertmoto
+//      https://coliconwg.appspot.com/alertpull?entity=alertmoto
 //      http://localhost:8080/alertpull?entity=alertmoto
 @WebServlet(name = "alertpull", urlPatterns = { "/alertpull" })
 public class AlertPull extends HttpServlet {
