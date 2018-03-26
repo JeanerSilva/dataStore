@@ -25,15 +25,12 @@ public class DeleteAlertas extends HttpServlet {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Alert alert = new Alert();
-		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
-		//Entity e = new Entity(entity);
-		Query q = new Query(entity);
+		Query q = new Query("alert");
 		PreparedQuery pq = ds.prepare(q);
 		
 		PrintWriter out = response.getWriter();
 		out.write("<html><body>");
 		out.write("<h2>Histórico</h2>");
-		out.write("<p>Veículo: " + entity + "</p>");
 		out.write("<table border=\"1\">");
 		out.write("<tr><th>Pos</th>");
 		out.write("<th>Giro</th>");
@@ -54,7 +51,7 @@ public class DeleteAlertas extends HttpServlet {
 			out.write("<td>" + alert.getTime() + "</td></tr>");
 			ds.delete(e.getKey());
 		};
-		out.write("<br /><br /><p>Entidade " + entity + " deletada.</p>");
+		out.write("<br /><br /><p>Alertas deletados.</p>");
 		
 		//Key key = KeyFactory.createKey(entity);
 		//ds.delete(e.getKey());

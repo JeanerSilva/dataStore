@@ -24,23 +24,24 @@ public class ListaAlerta extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		String entity = request.getParameter("entity") == null ? "alert" : request.getParameter("entity");
 		Alert alert = new Alert();
 		
-		Query q = new Query(entity);
+		Query q = new Query("alert");
 		PreparedQuery pq = ds.prepare(q);
 		
 		PrintWriter out = response.getWriter();
 		out.write("<html><body>");
 		out.write("<h2>Histórico</h2>");
-		out.write("<p>Veículo: " + entity + "</p>");
+		out.write("<p>Alertas</p>");
 		
 		out.write("<table border=\"1\">");
-		out.write("<tr><th>Pos</th>");
+		out.write("<tr><th>N.</th>");
+		out.write("<th>Pos</th>");
 		out.write("<th>Giro</th>");
 		out.write("<th>Mov</th>");
 		out.write("<th>Data</th>");
 		out.write("<th>Time</th></tr>");
+		int x = 1;
 		for (Entity e : pq.asIterable()) {
 			alert.setPos(e.getProperty("pos").toString() == null ? "" : e.getProperty("pos").toString());
 			alert.setGiro(e.getProperty("giro").toString() == null ? "" : e.getProperty("giro").toString());
@@ -48,11 +49,13 @@ public class ListaAlerta extends HttpServlet {
 			alert.setTime(e.getProperty("time").toString() == null ? "" : e.getProperty("time").toString());
 			alert.setData(e.getProperty("data").toString() == null ? "" : e.getProperty("data").toString());
 			
-			out.write("<tr><td>" + alert.getPos() + "</td>");
+			out.write("<tr><td>" + x + "</td>");
+			out.write("<td>" + alert.getPos() + "</td>");
 			out.write("<td>" + alert.getGiro() + "</td>");
 			out.write("<td>" + alert.getMov() + "</td>");
 			out.write("<td>" + alert.getData() + "</td>");
 			out.write("<td>" + alert.getTime() + "</td></tr>");
+		x++;
 		};
 		out.write("</table>");
 		
