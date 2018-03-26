@@ -26,7 +26,9 @@ public class ListaAlerta extends HttpServlet {
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Alert alert = new Alert();
 		
-		Query q = new Query("alert");
+		Query q = new Query("alert")
+				.addSort("data", Query.SortDirection.DESCENDING)
+				.addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		
 		PrintWriter out = response.getWriter();

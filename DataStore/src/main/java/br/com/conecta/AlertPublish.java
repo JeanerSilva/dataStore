@@ -23,7 +23,7 @@ public class AlertPublish extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String entity = "alert";
 		LocalDateTime time = LocalDateTime.now();
-		DateTimeFormatter formatadorComHoras = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+		DateTimeFormatter formatadorComHoras = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
 		String dataTime [] = time.format(formatadorComHoras).toString().split(" ");
 		
 		Alert alert = new Alert(request.getParameter("pos"),

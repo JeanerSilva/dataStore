@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.junit.runner.manipulation.Filter;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -25,7 +28,7 @@ public class ListaPos extends HttpServlet {
 		String entity = request.getParameter("entity") == null ? "unknow" : request.getParameter("entity");
 		TrackerPos trackerPos = new TrackerPos();
 		
-		Query q = new Query(entity);
+		Query q = new Query(entity).addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		
 		PrintWriter out = response.getWriter();

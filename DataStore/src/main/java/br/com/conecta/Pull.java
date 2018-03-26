@@ -28,7 +28,7 @@ public class Pull extends HttpServlet {
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		List<TrackerPos> trackerPosList = new ArrayList<>();
 
-		Query q = new Query(entity);
+		Query q = new Query(entity).addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
 			String posEntity = e.getProperty("pos").toString();

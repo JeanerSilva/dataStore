@@ -30,7 +30,9 @@ public class AlertPull extends HttpServlet {
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		List<Alert> alertList = new ArrayList<>();
 
-		Query q = new Query(entity);
+		Query q = new Query(entity)
+				.addSort("data", Query.SortDirection.DESCENDING)
+				.addSort("time", Query.SortDirection.DESCENDING);
 		PreparedQuery pq = ds.prepare(q);
 		for (Entity e : pq.asIterable()) {
 			alert.setPos(e.getProperty("pos").toString());
