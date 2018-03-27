@@ -22,6 +22,18 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
 //      https://coliconwg.appspot.com/config?entity=motoconfig&giro=on&gps=on
+
+//https://coliconwg.appspot.com/config?action=publish&entity=motoconfiggiro&status=on
+//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfiggiro&status=off
+//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfiggps&status=on
+//https://coliconwg.appspot.com/config?action=publish&entity=motoconfiggps&status=off
+
+//	https://coliconwg.appspot.com/config?action=pull&entity=motoconfiggps
+//	https://coliconwg.appspot.com/config?action=pull&entity=motoconfiggiro
+
+//	https://coliconwg.appspot.com/config?action=list&entity=motoconfiggps
+//	https://coliconwg.appspot.com/config?action=list&entity=motoconfiggiro
+
 //      http://localhost:8080/config?action=publish&entity=motoconfiggiro&status=on
 // 		http://localhost:8080/config?action=publish&entity=motoconfiggiro&status=off
 //		http://localhost:8080/config?action=publish&entity=motoconfiggps&status=on
