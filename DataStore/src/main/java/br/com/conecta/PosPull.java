@@ -2,6 +2,7 @@ package br.com.conecta;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -34,6 +35,13 @@ public class PosPull extends HttpServlet {
 			String timeEntity = e.getProperty("time") == null ? "" : e.getProperty("time").toString();
 			trackerPosList.add(new TrackerPos(posEntity, timeEntity));
 		}
+		
+		Comparator<? super TrackerPos> comparator = new Comparator<TrackerPos> () {
+			@Override
+			public int compare(TrackerPos o1, TrackerPos o2) {				
+				return o2.getTime().compareTo(o1.getTime());
+			}};
+		trackerPosList.sort(comparator);
 
 		Gson gson = new Gson();
 		String listJson = gson.toJson(trackerPosList);
