@@ -19,16 +19,11 @@ import com.google.gson.Gson;
 
 //      https://coliconwg.appspot.com/config?entity=motoconfig&giro=on&gps=on
 
-//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=on&gpstime=1000&gpsdist=1&timertransmit=2000
-//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=off&gpstime=1000&gpsdist=1
-//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=on&gpstime=1000&gpsdist=1
-//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=off&gpstime=1000&gpsdist=1
+//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=on&gpstime=2000&gpsdist=2&girosense=2.0f&timertransmit=2000&whatsapp=whatsapp
 //	https://coliconwg.appspot.com/config?action=pull&entity=motoconfig
-//	https://coliconwg.appspot.com/config?action=pull&entity=motoconfig
-//	https://coliconwg.appspot.com/config?action=list&entity=motoconfig
 //	https://coliconwg.appspot.com/config?action=list&entity=motoconfig
 
-//		http://localhost:8080/config?action=publish&entity=motoconfig&status=on&gpstime=2000&gpsdist=2&girosense=2.0f&timertransmit=2000
+//		http://localhost:8080/config?action=publish&entity=motoconfig&status=on&gpstime=2000&gpsdist=2&girosense=2.0f&timertransmit=2000&whatsapp=whatsapp
 //		http://localhost:8080/config?action=pull&entity=motoconfig
 //		http://localhost:8080/config?action=list&entity=motoconfig
 
@@ -45,6 +40,7 @@ public class ConfigBean extends HttpServlet {
 		config.setGpsDist(request.getParameter("gpsdist") == null ? "1" : request.getParameter("gpsdist").toString());
 		config.setGiroSense(request.getParameter("girosense") == null ? "3.0f" : request.getParameter("girosense").toString());
 		config.setTimerTransmit(request.getParameter("timertransmit") == null ? "3000" : request.getParameter("timertransmit").toString());
+		config.setWhatsApp(request.getParameter("whatsapp") == null ? "" : request.getParameter("whatsapp").toString());
 		System.out.println(config);
 		String entity = request.getParameter("entity").toString();
 		String action = request.getParameter("action").toString();
@@ -69,12 +65,13 @@ public class ConfigBean extends HttpServlet {
 					configEntity.setProperty("girosense", config.getGiroSense());
 					configEntity.setProperty("time", time.toString());
 					configEntity.setProperty("timertransmit", config.getTimerTransmit());
+					configEntity.setProperty("whatsapp", config.getWhatsApp());
 					ds.put(configEntity);
 					result = "<p> A entity '" + entity + "' teve o gpsstatus setado para '" 
 							+ config.getGpsStatus() + " o girostatos setado para " + config.getGiroStatus()
 							+ "' em " + time + ", com os parâmetros gpstime = " +config.getGpsTime()
 							+ " e gpsdist = " + config.getGpsDist() + " girosense = " + config.getGiroSense() 
-							+ " timertransmit = " + config.getTimerTransmit() + "</p>";
+							+ " timertransmit = " + config.getTimerTransmit() + " whatsapp =  " + config.getWhatsApp() + "</p>";
 					} else {
 						result = "<p> Status null </p>";
 					}
@@ -111,6 +108,8 @@ public class ConfigBean extends HttpServlet {
 							: getConfigEntity.getProperty("girosense").toString());
 					config.setTimerTransmit(getConfigEntity.getProperty("timertransmit") == null ? "nullo"
 							: getConfigEntity.getProperty("timertransmit").toString());
+					config.setWhatsApp(getConfigEntity.getProperty("whatsapp") == null ? "nullo"
+							: getConfigEntity.getProperty("whatsapp").toString());
 
 					if (action.equals("pull")) {
 						Gson gson = new Gson();
@@ -125,7 +124,7 @@ public class ConfigBean extends HttpServlet {
 								+ config.getGpsStatus() + " o girostatos setado para " + config.getGiroStatus()
 								+ "' em " + time + ", com os parâmetros time = " +config.getGpsTime()
 								+ " e dist = " + config.getGpsDist() + " girosense = " + config.getGiroSense() 
-								+ " timertransmit = " + config.getTimerTransmit() + "</p>";
+								+ " timertransmit = " + config.getTimerTransmit() + " whatsapp =  " + config.getWhatsApp() + "</p>";
 						responseHtml(response, result);
 					}
 				}
