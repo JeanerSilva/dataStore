@@ -28,7 +28,7 @@ import com.google.gson.Gson;
 //	https://coliconwg.appspot.com/config?action=list&entity=motoconfig
 //	https://coliconwg.appspot.com/config?action=list&entity=motoconfig
 
-//		http://localhost:8080/config?action=publish&entity=motoconfig&status=on&gpstime=2000&gpsdist=2&girosense=2.0f
+//		http://localhost:8080/config?action=publish&entity=motoconfig&status=on&gpstime=2000&gpsdist=2&girosense=2.0f&timertransmit=2000
 //		http://localhost:8080/config?action=pull&entity=motoconfig
 //		http://localhost:8080/config?action=list&entity=motoconfig
 
@@ -44,6 +44,7 @@ public class ConfigBean extends HttpServlet {
 		config.setGpsTime(request.getParameter("gpstime") == null ? "1000" : request.getParameter("gpstime").toString());
 		config.setGpsDist(request.getParameter("gpsdist") == null ? "1" : request.getParameter("gpsdist").toString());
 		config.setGiroSense(request.getParameter("girosense") == null ? "3.0f" : request.getParameter("girosense").toString());
+		config.setTimerTransmit(request.getParameter("timertransmit") == null ? "3000" : request.getParameter("timertransmit").toString());
 		
 		String entity = request.getParameter("entity").toString();
 		String action = request.getParameter("action").toString();
@@ -67,11 +68,13 @@ public class ConfigBean extends HttpServlet {
 					configEntity.setProperty("gpsdist", config.getGpsDist());
 					configEntity.setProperty("girosense", config.getGiroSense());
 					configEntity.setProperty("time", time.toString());
+					configEntity.setProperty("timertransmit", config.getTimerTransmit());
 					ds.put(configEntity);
 					result = "<p> A entity '" + entity + "' teve o gpsstatus setado para '" 
 							+ config.getGpsStatus() + " o girostatos setado para " + config.getGiroStatus()
 							+ "' em " + time + ", com os parâmetros gpstime = " +config.getGpsTime()
-							+ " e gpsdist = " + config.getGpsDist() + " girosense = " + config.getGiroSense() + "</p>";
+							+ " e gpsdist = " + config.getGpsDist() + " girosense = " + config.getGiroSense() 
+							+ " timertransmit = " + config.getTimerTransmit() + "</p>";
 					} else {
 						result = "<p> Status null </p>";
 					}
@@ -106,7 +109,8 @@ public class ConfigBean extends HttpServlet {
 							: getConfigEntity.getProperty("gpsdist").toString());
 					config.setGiroSense(getConfigEntity.getProperty("girosense") == null ? "nullo"
 							: getConfigEntity.getProperty("girosense").toString());
-					
+					config.setTimerTransmit(getConfigEntity.getProperty("timertransmit") == null ? "nullo"
+							: getConfigEntity.getProperty("timertransmit").toString());
 
 					if (action.equals("pull")) {
 						Gson gson = new Gson();
@@ -120,7 +124,8 @@ public class ConfigBean extends HttpServlet {
 						result = "<p> A entity '" + entity + "' teve o gpsstatus setado para '" 
 								+ config.getGpsStatus() + " o girostatos setado para " + config.getGiroStatus()
 								+ "' em " + time + ", com os parâmetros time = " +config.getGpsTime()
-								+ " e dist = " + config.getGpsDist() + " girosense = " + config.getGiroSense() + "</p>";
+								+ " e dist = " + config.getGpsDist() + " girosense = " + config.getGiroSense() 
+								+ " timertransmit = " + config.getTimerTransmit() + "</p>";
 						responseHtml(response, result);
 					}
 				}
