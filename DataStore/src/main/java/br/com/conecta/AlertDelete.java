@@ -15,8 +15,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-//      https://coliconwg.appspot.com/alertsdelete?verbose=false&entity=alertmoto
-//      http://localhost:8080/alertsdelete?verbose=false&entity=alertmoto
+//      https://coliconwg.appspot.com/alertsdelete?verbose=false&entity=motoalert
+//      http://localhost:8080/alertsdelete?verbose=false&entity=motoalert
 @WebServlet(name = "alertsdelete", urlPatterns = { "/alertsdelete" })
 public class AlertDelete extends HttpServlet {
 
@@ -41,28 +41,20 @@ public class AlertDelete extends HttpServlet {
 		out.write("<th>Time</th></tr>");
 		for (Entity e : pq.asIterable()) {
 			if (!verbose.equals("false")) {
-				alert.setPos(e.getProperty("pos").toString() == null ? "" : e.getProperty("pos").toString());
-				alert.setGiro(e.getProperty("giro").toString() == null ? "" : e.getProperty("giro").toString());
-				alert.setMov(e.getProperty("mov").toString() == null ? "" : e.getProperty("mov").toString());
+				alert.setPos (e.getProperty("pos").toString() == null ? "" : e.getProperty("pos").toString());
+				alert.setFont(e.getProperty("font").toString() == null ? "" : e.getProperty("font").toString());
 				alert.setTime(e.getProperty("time").toString() == null ? "" : e.getProperty("time").toString());
 
 				out.write("<tr><td>" + alert.getPos() + "</td>");
-				out.write("<td>" + alert.getGiro() + "</td>");
-				out.write("<td>" + alert.getMov() + "</td>");
+				out.write("<td>" + alert.getFont() + "</td>");
 				out.write("<td>" + alert.getTime() + "</td></tr>");
 			}
 			ds.delete(e.getKey());
 		}
 		;
 		out.write("<br /><br /><p>Alertas deletados.</p>");
-
-		// Key key = KeyFactory.createKey(entity);
-		// ds.delete(e.getKey());
-
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-
 		out.write("</body></html>");
-
 	}
 }

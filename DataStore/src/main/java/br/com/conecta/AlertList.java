@@ -19,8 +19,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-//      https://coliconwg.appspot.com/alertslist?entity=alertmoto
-//      http://localhost:8080/alertslist?&entity=alertmoto
+//      https://coliconwg.appspot.com/alertslist?entity=motoalert
+//      http://localhost:8080/alertslist?&entity=motoalert
 //		http://localhost:8080/alertslist
 @WebServlet(name = "alertslist", urlPatterns = { "/alertslist" })
 public class AlertList extends HttpServlet {
@@ -40,8 +40,7 @@ public class AlertList extends HttpServlet {
 		for (Entity e : pq.asIterable()) {
 			alert = new Alert();
 			alert.setPos (e.getProperty("pos") == null ? "" : e.getProperty("pos").toString());
-			alert.setGiro(e.getProperty("giro") == null ? "" : e.getProperty("giro").toString());
-			alert.setMov (e.getProperty("mov") == null ? "" : e.getProperty("mov").toString());
+			alert.setFont(e.getProperty("font") == null ? "" : e.getProperty("font").toString());
 			alert.setTime(e.getProperty("time") == null ? "" : e.getProperty("time").toString());
 			alertsList.add(alert);
 		}
@@ -59,16 +58,14 @@ public class AlertList extends HttpServlet {
 		out.write("<table border=\"1\">");
 		out.write("<tr><th>N.</th>");
 		out.write("<th>Pos</th>");
-		out.write("<th>Giro</th>");
-		out.write("<th>Mov</th>");
+		out.write("<th>Font</th>");
 		out.write("<th>Time</th></tr>");
 		System.out.println(alertsList);
 		int x = 1;
 		for (Alert a:alertsList) {
 			out.write("<tr><td>" + x + "</td>");
 			out.write("<td>" + a.getPos() + "</td>");
-			out.write("<td>" + a.getGiro() + "</td>");
-			out.write("<td>" + a.getMov() + "</td>");
+			out.write("<td>" + a.getFont() + "</td>");
 			out.write("<td>" + a.getTime() + "</td></tr>");
 		x++;
 		};

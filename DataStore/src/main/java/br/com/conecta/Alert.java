@@ -1,61 +1,47 @@
 package br.com.conecta;
 
+
 public class Alert {
-	String pos;
-	String giro;
-	String mov;
-	String time;
+    String pos;
+    String font;
+    String time;
 
-	public Alert() {}
-		
-	public Alert(String pos, String giro, String mov, String time) {
-		this.pos = pos;
-		this.giro = giro;
-		this.mov = mov;
-		this.time = time;	
-	}
+    public Alert() {}
 
-	public String getPos() {
-		return pos;
-	}
+    public Alert(String pos, String font, String time) {
+        this.pos = pos;
+        this.font = font;
+        this.time = time;
+    }
 
-	public void setPos(String pos) {
-		this.pos = pos;
-	}
+    public String getPos() {
+        return pos;
+    }
 
-	public String getGiro() {
-		return giro;
-	}
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
 
-	public void setGiro(String giro) {
-		this.giro = giro;
-	}
+    public String getFont() {
+        return font;
+    }
 
-	public String getMov() {
-		return mov;
-	}
+    public void setFont(String font) {
+        this.font = font;
+    }
 
-	public void setMov(String mov) {
-		this.mov = mov;
-	}
+    public String getTime() {
+        return time;
+    }
 
-	public String getTime() {
-		return time;
-	}
+    public void setTime(String time) {
+        this.time = time;
+    }
 
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	
-	@Override
-	public String toString() {
-		return "Alert [pos=" + pos + ", giro=" + giro + ", mov=" + mov + ", time=" + time + "]";
-	}
-
-	
+    @Override
+    public String toString() {
+        return "Alert [pos=" + pos + ", font=" + font + ", time=" + time + "]";
+    }
 
 
-
-	
 }

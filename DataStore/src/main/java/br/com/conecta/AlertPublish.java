@@ -14,10 +14,11 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
-//      https://coliconwg.appspot.com/alertpublish?pos=-15.1,-48.30&giro=true&mov=true&entity=alertmoto
-//      http://localhost:8080/alertpublish?pos=-15.1,-48.30&giro=true&mov=true&entity=alertmoto
+//      https://coliconwg.appspot.com/alertpublish?pos=-15.1,-48.30&font=giro&entity=motoalert
+//      http://localhost:8080/alertpublish?pos=-15.1,-48.30&font=giro&entity=motoalert
 //		http://localhost:8080/alertpublish
-//      http://localhost:8080/alertpublish?pos=-15.1,-48.30&mov=true&entity=alertmoto
+//      http://localhost:8080/alertpublish?pos=-15.1,-48.30&font=giro&entity=motoalert
+// 		http://localhost:8080/alertpublish?pos=-15.1,-48.30&font=gps&entity=motoalert
 @WebServlet(name = "alertpublish", urlPatterns = { "/alertpublish" })
 public class AlertPublish extends HttpServlet {
 
@@ -27,20 +28,17 @@ public class AlertPublish extends HttpServlet {
 		LocalDateTime time = LocalDateTime.now();
 				
 		Alert alert = new Alert(request.getParameter("pos"),
-								request.getParameter("giro"),
-								request.getParameter("mov"),
+								request.getParameter("font"),
 								time.toString());
 		
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 		Entity alertEntity = new Entity(entity);
-		if (alert.getGiro() == null) alert.setGiro("vazio");
+		if (alert.getFont() == null) alert.setFont("vazio");
 		if (alert.getPos() == null) alert.setPos("vazio");
-		if (alert.getMov() == null) alert.setMov("vazio");
 		if (alert.getTime() == null) alert.setTime("vazio");
 		
 		alertEntity.setProperty("pos", alert.getPos());
-		alertEntity.setProperty("giro", alert.getGiro());
-		alertEntity.setProperty("mov", alert.getMov());
+		alertEntity.setProperty("font", alert.getFont());
 		alertEntity.setProperty("time", alert.getTime());		
 		ds.put(alertEntity);
 
@@ -52,16 +50,14 @@ public class AlertPublish extends HttpServlet {
 		//cabeçalho
 		out.write("<table>");
 		out.write("<tr><th>Pos</th>");
-			out.write("<th>Giro</th>");
-			out.write("<th>Mov</th>");
+			out.write("<th>Font</th>");
 			out.write("<th>Time</th></tr>");
 		//corpo
 		
 
 		
 		out.write("<tr><td>" + alert.getPos() + "</td>");
-			out.write("<td>" + alert.getGiro() + "</td>");
-			out.write("<td>" + alert.getMov() + "</td>");
+			out.write("<td>" + alert.getFont() + "</td>");
 			out.write("<td>" + alert.getTime() + "</td></tr>");
 		
 		out.write("</table>");

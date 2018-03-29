@@ -1,6 +1,5 @@
 package br.com.conecta;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -19,8 +18,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
-//      https://coliconwg.appspot.com/alertpull?entity=alertmoto
-//      http://localhost:8080/alertpull?entity=alertmoto
+//      https://coliconwg.appspot.com/alertpull?entity=motoalert
+//      http://localhost:8080/alertpull?entity=motoalert
 @WebServlet(name = "alertpull", urlPatterns = { "/alertpull" })
 public class AlertPull extends HttpServlet {
 
@@ -37,8 +36,7 @@ public class AlertPull extends HttpServlet {
 		for (Entity e : pq.asIterable()) {
 			alert = new Alert();
 			alert.setPos(e.getProperty("pos") == null ? "" : e.getProperty("pos").toString());
-			alert.setMov(e.getProperty("mov") == null ? "" : e.getProperty("mov").toString());
-			alert.setGiro(e.getProperty("giro") == null ? "" : e.getProperty("giro").toString());
+			alert.setFont(e.getProperty("font") == null ? "" : e.getProperty("font").toString());
 			alert.setTime(e.getProperty("time") == null ? "" : e.getProperty("time").toString());
 			alertList.add(alert);
 		}
