@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 
 //      https://coliconwg.appspot.com/config?entity=motoconfig&giro=on&gps=on
 
-//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=on&gpstime=1000&gpsdist=1
+//	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=on&gpstime=1000&gpsdist=1&timertransmit=2000
 //	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=off&gpstime=1000&gpsdist=1
 //	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=on&gpstime=1000&gpsdist=1
 //	https://coliconwg.appspot.com/config?action=publish&entity=motoconfig&status=off&gpstime=1000&gpsdist=1
@@ -45,7 +45,7 @@ public class ConfigBean extends HttpServlet {
 		config.setGpsDist(request.getParameter("gpsdist") == null ? "1" : request.getParameter("gpsdist").toString());
 		config.setGiroSense(request.getParameter("girosense") == null ? "3.0f" : request.getParameter("girosense").toString());
 		config.setTimerTransmit(request.getParameter("timertransmit") == null ? "3000" : request.getParameter("timertransmit").toString());
-		
+		System.out.println(config);
 		String entity = request.getParameter("entity").toString();
 		String action = request.getParameter("action").toString();
 		int id = 1;
